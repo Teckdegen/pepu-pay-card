@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useUser } from '@/hooks/useUser';
 import { usePepuPrice } from '@/hooks/usePepuPrice';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/Card';
@@ -81,14 +81,18 @@ export default function Landing() {
         try {
           // Save user to Supabase
           const { error } = await supabase.from('users').insert({
-            wallet_address: address,
+            wallet_address: address.toLowerCase(),
             first_name: formData.firstName,
             last_name: formData.lastName,
             email: formData.email,
             customer_code: formData.customerCode,
           });
 
-          if (error) throw error;
+          if (error) {
+            console.error('Error saving user:', error);
+            toast.error('Failed to save user data');
+            return;
+          }
 
           toast.success('Payment successful! Your card is being created...');
           mutateUser();
@@ -99,7 +103,7 @@ export default function Landing() {
         }
       })();
     }
-  }, [isTxSuccess, txHash, formData, address]);
+  }, [isTxSuccess, txHash, formData, address, mutateUser, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">

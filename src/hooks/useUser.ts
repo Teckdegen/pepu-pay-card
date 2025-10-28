@@ -1,5 +1,8 @@
 import useSWR from 'swr';
-import { supabase, User } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
+import { Tables } from '@/integrations/supabase/types';
+
+export type User = Tables<'users'>;
 
 export function useUser(address?: string) {
   return useSWR<User | null>(
@@ -10,12 +13,12 @@ export function useUser(address?: string) {
       const { data, error } = await supabase
         .from('users')
         .select('*')
-        .eq('wallet_address', address)
-        .single();
+        .eq('wallet_address', address.toLowerCase())
+        .maybeSingle();
 
       if (error) {
-        if (error.code === 'PGRST116') return null; // No user found
-        throw error;
+        console.error('Error fetching user:', error);
+        return null;
       }
 
       return data;

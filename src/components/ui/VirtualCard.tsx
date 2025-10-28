@@ -34,18 +34,18 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
           aspectRatio: '1.586',
         }}
       >
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm" />
+        {/* Subtle overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/30" />
         
         {/* Card Content */}
         <div className="relative h-full flex flex-col justify-between p-6 sm:p-8 text-white">
           {/* Balance */}
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs sm:text-sm text-gray-300 font-medium">Available Balance</p>
-              <p className="text-xl sm:text-2xl font-bold text-secondary mt-1">${balance.toFixed(2)}</p>
+              <p className="text-xs sm:text-sm text-white/80 font-medium">Available Balance</p>
+              <p className="text-xl sm:text-2xl font-bold text-yellow-400 mt-1">${balance.toFixed(2)}</p>
             </div>
-            <div className="text-xs sm:text-sm font-bold text-primary bg-white/90 px-3 py-1 rounded-full">
+            <div className="text-xs sm:text-sm font-bold text-black bg-yellow-400 px-3 py-1 rounded-full">
               VIRTUAL
             </div>
           </div>
@@ -67,20 +67,20 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
 
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-xs text-gray-300 mb-1">Cardholder</p>
-                <p className="text-sm sm:text-base font-semibold uppercase">{cardholderName}</p>
+                <p className="text-xs text-white/70 mb-1">Cardholder</p>
+                <p className="text-sm sm:text-base font-semibold uppercase text-white">{cardholderName}</p>
               </div>
               
               <div className="flex gap-6">
                 <div>
-                  <p className="text-xs text-gray-300 mb-1">Expires</p>
-                  <p className="text-sm font-mono">{expiryDate}</p>
+                  <p className="text-xs text-white/70 mb-1">Expires</p>
+                  <p className="text-sm font-mono text-white">{expiryDate}</p>
                 </div>
                 
                 <div>
-                  <p className="text-xs text-gray-300 mb-1">CVV</p>
+                  <p className="text-xs text-white/70 mb-1">CVV</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-mono">{showCVV ? cvv : '•••'}</p>
+                    <p className="text-sm font-mono text-white">{showCVV ? cvv : '•••'}</p>
                     <button
                       onClick={() => setShowCVV(!showCVV)}
                       className="p-1 hover:bg-white/20 rounded transition-colors"
