@@ -6,29 +6,36 @@ export async function fetchPepuPrice(): Promise<number> {
       'https://api.coingecko.com/api/v3/simple/price?ids=pepe&vs_currencies=usd'
     );
     const data = await response.json();
-    return data.pepe?.usd || 0.00001;
+    return data.pepe?.usd || 0;
   } catch (error) {
     console.error('Price fetch error:', error);
-    return 0.00001;
+    return 0;
   }
 }
 
-export async function getCardBalance(cardCode: string, customerEmail: string) {
+export async function getCardBalance(cardCode: string, customerEmail: string, customerCode?: string) {
   const requestId = Math.random().toString(36).substring(2, 15).toUpperCase();
   
+  const requestBody: any = {
+    appId: import.meta.env.VITE_CASHWYRE_APP_ID,
+    businessCode: import.meta.env.VITE_CASHWYRE_BUSINESS_CODE,
+    requestId,
+  };
+
+  // Use customerCode if provided, otherwise use customerEmail
+  if (customerCode) {
+    requestBody.customerCode = customerCode;
+  } else {
+    requestBody.customerEmail = customerEmail;
+  }
+
   const response = await fetch('https://businessapi.cashwyre.com/api/v1.0/CustomerCard/getCards', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${import.meta.env.VITE_CASHWYRE_SECRET_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      appId: import.meta.env.VITE_CASHWYRE_APP_ID,
-      businessCode: import.meta.env.VITE_CASHWYRE_BUSINESS_CODE,
-      requestId,
-      customerCode: '',
-      customerEmail,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.ok) {
@@ -93,7 +100,12 @@ export async function notifyTopUp(
     return;
   }
 
-  const message = `💰 Card Top-Up Received\n\nCard: ${cardCode}\nAmount: $${amountInUSD}\nWallet: ${walletAddress}\nTX: ${txHash}`;
+  const message = `💰 Card Top-Up Received
+
+Card: ${cardCode}
+Amount: $${amountInUSD}
+Wallet: ${walletAddress}
+TX: ${txHash}`;
 
   try {
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

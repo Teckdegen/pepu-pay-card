@@ -21,7 +21,7 @@ export function TransactionList({ transactions }: TransactionListProps) {
 
   if (transactions.length === 0) {
     return (
-      <Card className="text-center py-12">
+      <Card className="text-center py-12 bg-gray-800 border-gray-700">
         <RefreshCw className="w-12 h-12 mx-auto text-muted-foreground mb-4 opacity-50" />
         <p className="text-muted-foreground">No transactions yet</p>
       </Card>
@@ -29,16 +29,16 @@ export function TransactionList({ transactions }: TransactionListProps) {
   }
 
   return (
-    <Card>
+    <Card className="bg-gray-800 border-gray-700">
       <h2 className="text-xl font-bold mb-4 text-foreground">Recent Transactions</h2>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {transactions.map((tx) => (
           <div
             key={tx.code}
-            className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+            className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-background">
+              <div className="p-2 rounded-full bg-gray-600">
                 {getIcon(tx.drcr)}
               </div>
               <div>

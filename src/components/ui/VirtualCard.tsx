@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Lock, Wifi } from 'lucide-react';
 import { Card } from './Card';
 import pepuCardImage from '@/assets/pepu-card.png';
 
@@ -26,34 +26,39 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
   return (
     <div className="relative w-full max-w-md mx-auto">
       <div 
-        className="relative overflow-hidden rounded-2xl shadow-2xl"
+        className="relative overflow-hidden rounded-2xl shadow-2xl w-full h-56 transform transition-transform hover:scale-105 duration-300"
         style={{
           backgroundImage: `url(${pepuCardImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          aspectRatio: '1.586',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         {/* Subtle overlay for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/30 rounded-2xl" />
         
         {/* Card Content */}
-        <div className="relative h-full flex flex-col justify-between p-6 sm:p-8 text-white">
+        <div className="relative h-full flex flex-col justify-between p-6 text-white">
+          {/* Top bar with chip and wifi */}
+          <div className="flex justify-between items-center">
+            <div className="w-10 h-8 rounded bg-gradient-to-r from-yellow-500 to-amber-400 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-amber-300 flex items-center justify-center">
+                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+              </div>
+            </div>
+            <Wifi className="w-6 h-6 rotate-90" />
+          </div>
+
           {/* Balance */}
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-xs sm:text-sm text-white/80 font-medium">Available Balance</p>
-              <p className="text-xl sm:text-2xl font-bold text-yellow-400 mt-1">${balance.toFixed(2)}</p>
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-black bg-yellow-400 px-3 py-1 rounded-full">
-              VIRTUAL
-            </div>
+          <div>
+            <p className="text-xs text-white/80 font-medium">Available Balance</p>
+            <p className="text-2xl font-bold text-yellow-400 mt-1">${balance.toFixed(2)}</p>
           </div>
 
           {/* Card Number */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-xl sm:text-2xl font-mono tracking-wider">
+              <p className="text-2xl font-mono tracking-wider">
                 {formatCardNumber(cardNumber)}
               </p>
               <button
@@ -68,7 +73,7 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
             <div className="flex justify-between items-end">
               <div>
                 <p className="text-xs text-white/70 mb-1">Cardholder</p>
-                <p className="text-sm sm:text-base font-semibold uppercase text-white">{cardholderName}</p>
+                <p className="text-base font-semibold uppercase text-white">{cardholderName}</p>
               </div>
               
               <div className="flex gap-6">
@@ -94,6 +99,13 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
             </div>
           </div>
         </div>
+      </div>
+      
+      {/* Card info footer */}
+      <div className="mt-4 text-center">
+        <p className="text-xs text-muted-foreground">
+          Unchain Card • Virtual Debit Card
+        </p>
       </div>
     </div>
   );

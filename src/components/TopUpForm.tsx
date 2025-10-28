@@ -8,19 +8,68 @@ import { parseEther } from 'viem';
 import { toast } from 'sonner';
 import { Wallet } from 'lucide-react';
 import { usePepuPrice } from '@/hooks/usePepuPrice';
-import { notifyTopUp } from '@/lib/api';
+
+export async function notifyTopUp(
+  cardCode: string,
+  amountInUSD: number,
+  walletAddress: string,
+  txHash: string,
+  userFirstName: string,
+  userLastName: string,
+  userEmail: string
+) {
+  const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+  if (!botToken || !chatId) {
+    console.warn('Telegram not configured');
+    return;
+  }
+
+  const message = `💰 Card Top-Up Received
+
+Card: ${cardCode}
+Amount: $${amountInUSD}
+User: ${userFirstName} ${userLastName}
+Email: ${userEmail}
+Wallet: ${walletAddress}
+TX: ${txHash}`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+      }),
+    });
+  } catch (error) {
+    console.error('Telegram notification failed:', error);
+  }
+}
 
 interface TopUpFormProps {
   onSuccess: () => void;
   cardCode: string;
   walletAddress: string;
+  userFirstName: string;
+  userLastName: string;
+  userEmail: string;
 }
 
 interface FormData {
   amount: string;
 }
 
-export function TopUpForm({ onSuccess, cardCode, walletAddress }: TopUpFormProps) {
+export function TopUpForm({ 
+  onSuccess, 
+  cardCode, 
+  walletAddress,
+  userFirstName,
+  userLastName,
+  userEmail
+}: TopUpFormProps) {
   const { register, handleSubmit, watch, reset } = useForm<FormData>();
   const [isProcessing, setIsProcessing] = useState(false);
   const { data: sendTxHash, sendTransaction } = useSendTransaction();
@@ -68,7 +117,16 @@ export function TopUpForm({ onSuccess, cardCode, walletAddress }: TopUpFormProps
       (async () => {
         try {
           const usdAmount = parseFloat(amount);
-          await notifyTopUp(cardCode, usdAmount, walletAddress, sendTxHash);
+          // Pass user details to the notification function
+          await notifyTopUp(
+            cardCode, 
+            usdAmount, 
+            walletAddress, 
+            sendTxHash,
+            userFirstName,
+            userLastName,
+            userEmail
+          );
           toast.success(`Top-up successful! $${usdAmount.toFixed(2)} sent. Card will be funded shortly.`);
           reset();
           onSuccess();
@@ -79,10 +137,10 @@ export function TopUpForm({ onSuccess, cardCode, walletAddress }: TopUpFormProps
         }
       })();
     }
-  }, [isTxSuccess, sendTxHash, isProcessing]);
+  }, [isTxSuccess, sendTxHash, isProcessing, amount, cardCode, walletAddress, userFirstName, userLastName, userEmail, onSuccess, reset]);
 
   return (
-    <Card>
+    <Card className="bg-gray-800 border-gray-700">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         <Wallet className="w-5 h-5 text-primary" />
         Top Up Card
@@ -96,6 +154,7 @@ export function TopUpForm({ onSuccess, cardCode, walletAddress }: TopUpFormProps
             min="10"
             placeholder="Minimum $10"
             {...register('amount', { required: true, min: 10 })}
+            className="bg-gray-700 border-gray-600"
           />
           {amount && pepuPrice && (
             <p className="text-sm text-muted-foreground mt-2">

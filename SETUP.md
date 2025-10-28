@@ -1,7 +1,7 @@
-# Pepu Card Setup Guide
+# Unchain Card Setup Guide
 
 ## Overview
-Pepu Card is a decentralized virtual debit card platform that integrates:
+Unchain Card is a decentralized virtual debit card platform that integrates:
 - Web3 wallet connectivity (Pepu Chain)
 - Cashwyre Business API for virtual card issuance
 - On-chain PEPU token payments
@@ -38,7 +38,7 @@ Pepu Card is a decentralized virtual debit card platform that integrates:
 
 Run this SQL in your Supabase SQL Editor:
 
-\`\`\`sql
+```sql
 CREATE TABLE users (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   wallet_address TEXT UNIQUE NOT NULL,
@@ -57,28 +57,28 @@ ALTER TABLE users DISABLE ROW LEVEL SECURITY;
 CREATE INDEX idx_users_wallet ON users(wallet_address);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_card ON users(card_code);
-\`\`\`
+```
 
 ## Environment Configuration
 
 1. Copy `.env.example` to `.env.local`:
-   \`\`\`bash
+   ```bash
    cp .env.example .env.local
-   \`\`\`
+   ```
 
 2. Fill in all the values in `.env.local`
 
 ## Installation
 
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ## Development
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 ## Cashwyre Integration Notes
 

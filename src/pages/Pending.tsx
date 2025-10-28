@@ -27,8 +27,8 @@ export default function Pending() {
   }, [address, user, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="max-w-md w-full text-center p-12 animate-pulse-glow">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 to-black">
+      <Card className="max-w-md w-full text-center p-12 animate-pulse-glow bg-gray-800 border-gray-700">
         <Loader2 className="w-16 h-16 mx-auto mb-6 text-primary animate-spin" />
         
         <h2 className="text-2xl font-bold mb-4">Creating Your Card</h2>

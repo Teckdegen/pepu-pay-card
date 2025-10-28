@@ -23,8 +23,8 @@ export default function Dashboard() {
     error: balanceError,
     mutate: mutateBalance,
   } = useSWR(
-    user?.card_code && user?.email ? ['balance', user.card_code, user.email] : null,
-    () => getCardBalance(user!.card_code!, user!.email),
+    user?.card_code && user?.email ? ['balance', user.card_code, user.email, user.customer_code] : null,
+    () => getCardBalance(user!.card_code!, user!.email, user!.customer_code),
     { refreshInterval: 10000 }
   );
 
@@ -78,7 +78,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-900 to-black">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex justify-between items-center">
@@ -94,13 +94,14 @@ export default function Dashboard() {
               size="icon"
               onClick={handleRefresh}
               title="Refresh data"
+              className="bg-gray-800 border-gray-700"
             >
               <RefreshCw className="w-4 h-4" />
             </Button>
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="gap-2"
+              className="gap-2 bg-gray-800 border-gray-700"
             >
               <LogOut className="w-4 h-4" />
               Logout
@@ -114,7 +115,7 @@ export default function Dashboard() {
         {/* Left Column */}
         <div className="space-y-8">
           {/* Balance Card */}
-          <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground p-8">
+          <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground p-8 rounded-2xl">
             <h2 className="text-lg font-semibold mb-2 opacity-90">Card Balance</h2>
             <p className="text-5xl font-bold mb-4">${cardData.balance.toFixed(2)}</p>
             <div className="flex items-center gap-2">
@@ -145,6 +146,9 @@ export default function Dashboard() {
             }}
             cardCode={user.card_code!}
             walletAddress={address!}
+            userFirstName={user.first_name}
+            userLastName={user.last_name}
+            userEmail={user.email}
           />
 
           {/* Transactions */}

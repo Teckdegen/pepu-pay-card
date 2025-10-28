@@ -29,7 +29,7 @@ export const pepuChain = {
 } as const satisfies Chain;
 
 export const config = getDefaultConfig({
-  appName: 'Pepu Card',
+  appName: 'Unchain Card',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
   chains: [pepuChain],
   transports: {
