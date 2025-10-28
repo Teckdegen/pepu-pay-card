@@ -1,73 +1,98 @@
-# Welcome to your Lovable project
+# Pepu Card - Virtual Debit Card dApp
 
-## Project info
+A decentralized virtual debit card platform where users connect their wallet, pay with PEPU tokens, and receive a virtual Visa card via Cashwyre API.
 
-**URL**: https://lovable.dev/projects/f328bcfa-3263-4091-949f-2aaa8e03c390
+## Features
 
-## How can I edit this code?
+- 🔗 **Web3 Wallet Integration** - Connect with Pepu Chain
+- 💳 **Virtual Debit Cards** - Powered by Cashwyre Business API
+- ⚡ **In-App Payments** - Pay with PEPU tokens directly from wallet
+- 📊 **Real-time Balance** - View card balance and transaction history
+- 💰 **Easy Top-ups** - Add funds to your card with PEPU
+- 🎨 **Beautiful UI** - Responsive design with Pepu branding
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React + TypeScript + Vite
+- **Styling**: TailwindCSS
+- **Web3**: Wagmi + RainbowKit + Viem
+- **Database**: Supabase
+- **API**: Cashwyre Business API
+- **UI Components**: shadcn/ui
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f328bcfa-3263-4091-949f-2aaa8e03c390) and start prompting.
+## Quick Start
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Clone and Install**
+   \`\`\`bash
+   git clone <YOUR_GIT_URL>
+   cd pepu-card
+   npm install
+   \`\`\`
 
-**Use your preferred IDE**
+2. **Configure Environment**
+   - Copy \`.env.example\` to \`.env.local\`
+   - Fill in all required credentials
+   - See [SETUP.md](./SETUP.md) for detailed instructions
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. **Setup Database**
+   - Create Supabase project
+   - Run SQL migration from SETUP.md
+   - Update environment variables
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+4. **Run Development Server**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
-Follow these steps:
+## How It Works
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Users connect their Pepu Chain wallet
+2. Fill out card application with Cashwyre customer code
+3. Pay $30 + 5% fee in PEPU tokens (on-chain)
+4. Card is created and linked to user account
+5. Users can view card details, check balance, and top up
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Important Notes
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Users must have a Cashwyre customer account first
+- Card creation and funding currently require manual steps
+- See [SETUP.md](./SETUP.md) for complete workflow
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Documentation
 
-**Edit a file directly in GitHub**
+- [Setup Guide](./SETUP.md) - Detailed setup instructions
+- [Cashwyre API Docs](https://businessapi.cashwyre.com/docs)
+- [Supabase Docs](https://supabase.com/docs)
+- [Wagmi Docs](https://wagmi.sh)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+\`\`\`
+src/
+├── components/          # React components
+│   ├── ui/             # UI components (Card, Button, etc.)
+│   ├── TransactionList.tsx
+│   └── TopUpForm.tsx
+├── hooks/              # Custom React hooks
+│   ├── useUser.ts
+│   └── usePepuPrice.ts
+├── lib/                # Utilities and configurations
+│   ├── api.ts          # API client functions
+│   ├── cashwyre.ts     # Cashwyre types and utilities
+│   ├── supabase.ts     # Supabase client
+│   ├── telegram.ts     # Telegram notifications
+│   └── wagmi.ts        # Wagmi configuration
+├── pages/              # Page components
+│   ├── Landing.tsx     # Onboarding & payment
+│   ├── Pending.tsx     # Card creation wait
+│   └── Dashboard.tsx   # Card management
+└── App.tsx             # Root component
+\`\`\`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## License
 
-## What technologies are used for this project?
+MIT
 
-This project is built with:
+## Support
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f328bcfa-3263-4091-949f-2aaa8e03c390) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+For setup help, see [SETUP.md](./SETUP.md)
