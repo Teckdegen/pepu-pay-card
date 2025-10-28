@@ -10,7 +10,7 @@ import { usePepuPrice } from '@/hooks/usePepuPrice';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { Link2, CreditCard, Zap } from 'lucide-react';
 
 interface FormData {
@@ -137,72 +137,80 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
   }, [isTxSuccess, txHash, formData, address, mutateUser, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 to-black">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-gray-950 to-black">
       <div className="max-w-6xl w-full">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
+        <div className="text-center mb-16 mt-8">
+          <div className="flex justify-center mb-8">
             <div className="relative">
+              <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse-glow"></div>
               <img 
                 src="/logo.png" 
                 alt="Unchain Card" 
-                className="w-24 h-24 animate-float"
+                className="w-32 h-32 animate-float relative z-10"
               />
-              <div className="absolute inset-0 bg-primary/20 blur-xl animate-pulse-glow" />
             </div>
           </div>
           
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Unchained Card
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+            Unchain Card
           </h1>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
             Fund with PEPU. Spend Anywhere.
           </p>
 
           {/* Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto">
-            <Card className="p-6 text-center hover:scale-105 transition-transform bg-gray-800 border-gray-700">
-              <Link2 className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="font-bold mb-2">Connect Wallet</h3>
-              <p className="text-sm text-muted-foreground">Link your Pepu wallet in seconds</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Link2 className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold mb-3">Connect Wallet</h3>
+              <p className="text-muted-foreground">Link your Pepu wallet in seconds</p>
             </Card>
             
-            <Card className="p-6 text-center hover:scale-105 transition-transform bg-gray-800 border-gray-700">
-              <Zap className="w-12 h-12 mx-auto mb-4 text-secondary" />
-              <h3 className="font-bold mb-2">Instant Approval</h3>
-              <p className="text-sm text-muted-foreground">Get your virtual card immediately</p>
+            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
+              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Zap className="w-8 h-8 text-secondary" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold mb-3">Instant Approval</h3>
+              <p className="text-muted-foreground">Get your virtual card immediately</p>
             </Card>
             
-            <Card className="p-6 text-center hover:scale-105 transition-transform bg-gray-800 border-gray-700">
-              <CreditCard className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="font-bold mb-2">Spend Globally</h3>
-              <p className="text-sm text-muted-foreground">Use anywhere Visa is accepted</p>
+            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CreditCard className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold mb-3">Spend Globally</h3>
+              <p className="text-muted-foreground">Use anywhere Visa is accepted</p>
             </Card>
           </div>
         </div>
 
         {/* Main Content */}
-        <Card className="max-w-md mx-auto bg-gray-800 border-gray-700">
+        <Card className="max-w-md mx-auto bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-2xl rounded-2xl">
           {!isConnected ? (
-            <div className="text-center">
-              <h2 className="text-2xl font-bold mb-6">Get Started</h2>
-              <ConnectButton />
-              <p className="text-sm text-muted-foreground mt-4">
+            <div className="text-center py-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-8">Get Started</h2>
+              <div className="mb-8">
+                <ConnectButton />
+              </div>
+              <p className="text-muted-foreground">
                 Connect your Pepu wallet to continue
               </p>
             </div>
           ) : showForm && !formData ? (
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Card Application</h2>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="py-6">
+              <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">Card Application</h2>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input {...register('firstName', { required: true })} placeholder="John" className="bg-gray-700 border-gray-600" />
+                    <Input {...register('firstName', { required: true })} placeholder="John" className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input {...register('lastName', { required: true })} placeholder="Doe" className="bg-gray-700 border-gray-600" />
+                    <Input {...register('lastName', { required: true })} placeholder="Doe" className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5" />
                   </div>
                 </div>
 
@@ -212,7 +220,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                     {...register('email', { required: true })} 
                     type="email" 
                     placeholder="john@example.com" 
-                    className="bg-gray-700 border-gray-600"
+                    className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                   />
                 </div>
 
@@ -222,7 +230,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                     <Input 
                       {...register('phoneCode', { required: true })} 
                       placeholder="+1" 
-                      className="bg-gray-700 border-gray-600"
+                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                     />
                   </div>
                   <div className="col-span-2">
@@ -230,7 +238,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                     <Input 
                       {...register('phoneNumber', { required: true })} 
                       placeholder="1234567890" 
-                      className="bg-gray-700 border-gray-600"
+                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                     />
                   </div>
                 </div>
@@ -240,7 +248,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                   <Input 
                     {...register('dateOfBirth', { required: true })} 
                     type="date" 
-                    className="bg-gray-700 border-gray-600"
+                    className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                   />
                 </div>
 
@@ -250,7 +258,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                     <Input 
                       {...register('homeAddressNumber', { required: true })} 
                       placeholder="123" 
-                      className="bg-gray-700 border-gray-600"
+                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                     />
                   </div>
                   <div className="col-span-2">
@@ -258,31 +266,31 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                     <Input 
                       {...register('homeAddress', { required: true })} 
                       placeholder="Street Name, City, State" 
-                      className="bg-gray-700 border-gray-600"
+                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
                     />
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold mt-6 rounded-xl">
                   Continue to Payment
                 </Button>
               </form>
             </div>
           ) : formData && !isTxSuccess ? (
-            <div className="text-center">
-              <h2 className="text-2xl font-bold mb-6">Payment Required</h2>
+            <div className="text-center py-8">
+              <h2 className="text-xl md:text-2xl font-bold mb-6">Payment Required</h2>
               
-              <div className="bg-gray-700 rounded-lg p-6 mb-6">
-                <div className="flex justify-between mb-2">
+              <div className="bg-gray-700/50 rounded-2xl p-6 mb-8 border border-gray-600">
+                <div className="flex justify-between mb-3">
                   <span className="text-muted-foreground">Card Fee:</span>
-                  <span className="font-semibold">${initialCost.toFixed(2)}</span>
+                  <span className="font-semibold text-lg">${initialCost.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between mb-2">
+                <div className="flex justify-between mb-3">
                   <span className="text-muted-foreground">Processing (5%):</span>
-                  <span className="font-semibold">${fee.toFixed(2)}</span>
+                  <span className="font-semibold text-lg">${fee.toFixed(2)}</span>
                 </div>
-                <div className="border-t border-border pt-2 mt-2">
-                  <div className="flex justify-between font-bold text-lg">
+                <div className="border-t border-border pt-3 mt-3">
+                  <div className="flex justify-between font-bold text-xl">
                     <span>Total:</span>
                     <span>${totalUSD.toFixed(2)}</span>
                   </div>
@@ -294,12 +302,12 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
 
               <Button 
                 onClick={handlePayment}
-                className="w-full bg-primary hover:bg-primary/90 text-lg py-6"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg py-6 font-semibold rounded-xl"
               >
                 Pay with Wallet
               </Button>
 
-              <p className="text-xs text-muted-foreground mt-4">
+              <p className="text-sm text-muted-foreground mt-6">
                 Your card will be activated immediately after payment
               </p>
             </div>

@@ -78,55 +78,42 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-900 to-black">
+    <div className="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-900 via-gray-950 to-black">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-bold">Welcome, {user.first_name}!</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-3xl md:text-4xl font-bold">Welcome, {user.first_name}!</h1>
+            <p className="text-muted-foreground mt-1">
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <Button
               variant="outline"
               size="icon"
               onClick={handleRefresh}
               title="Refresh data"
-              className="bg-gray-800 border-gray-700"
+              className="bg-gray-800/50 border-gray-700 backdrop-blur-sm hover:bg-gray-700/50"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-5 h-5" />
             </Button>
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="gap-2 bg-gray-800 border-gray-700"
+              className="gap-2 bg-gray-800/50 border-gray-700 backdrop-blur-sm hover:bg-gray-700/50"
             >
-              <LogOut className="w-4 h-4" />
-              Logout
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
             </Button>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left Column */}
-        <div className="space-y-8">
-          {/* Balance Card */}
-          <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground p-8 rounded-2xl">
-            <h2 className="text-lg font-semibold mb-2 opacity-90">Card Balance</h2>
-            <p className="text-5xl font-bold mb-4">${cardData.balance.toFixed(2)}</p>
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${
-                cardData.status === 'active' ? 'bg-green-400' : 'bg-yellow-400'
-              } animate-pulse`} />
-              <span className="text-sm capitalize">{cardData.status}</span>
-            </div>
-          </Card>
-
-          {/* Virtual Card */}
+      <div className="max-w-7xl mx-auto">
+        {/* Card Section - Prominently displayed */}
+        <div className="mb-8">
           <VirtualCard
             cardNumber={cardData.cardNumber}
             expiryDate={cardData.expiryDate}
@@ -136,23 +123,39 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Right Column */}
-        <div className="space-y-8">
-          {/* Top Up Form */}
-          <TopUpForm
-            onSuccess={() => {
-              mutateBalance();
-              mutateTransactions();
-            }}
-            cardCode={user.card_code!}
-            walletAddress={address!}
-            userFirstName={user.first_name}
-            userLastName={user.last_name}
-            userEmail={user.email}
-          />
+        {/* Info and Actions Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Balance Card */}
+          <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground p-6 rounded-2xl shadow-2xl backdrop-blur-sm lg:col-span-1">
+            <h2 className="text-lg font-semibold mb-4 opacity-90">Card Balance</h2>
+            <p className="text-4xl md:text-5xl font-bold mb-2">${cardData.balance.toFixed(2)}</p>
+            <div className="flex items-center gap-2 mt-4">
+              <div className={`w-3 h-3 rounded-full ${
+                cardData.status === 'active' ? 'bg-green-400' : 'bg-yellow-400'
+              } animate-pulse`} />
+              <span className="text-sm capitalize">{cardData.status}</span>
+            </div>
+          </Card>
 
-          {/* Transactions */}
-          <TransactionList transactions={transactions || []} />
+          {/* Top Up Form */}
+          <div className="lg:col-span-2">
+            <TopUpForm
+              onSuccess={() => {
+                mutateBalance();
+                mutateTransactions();
+              }}
+              cardCode={user.card_code!}
+              walletAddress={address!}
+              userFirstName={user.first_name}
+              userLastName={user.last_name}
+              userEmail={user.email}
+            />
+          </div>
+
+          {/* Transactions - Full width on mobile, spans appropriately on desktop */}
+          <div className="lg:col-span-3">
+            <TransactionList transactions={transactions || []} />
+          </div>
         </div>
       </div>
     </div>

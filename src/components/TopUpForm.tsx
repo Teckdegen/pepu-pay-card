@@ -6,7 +6,7 @@ import { Card } from './ui/Card';
 import { useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 import { toast } from 'sonner';
-import { Wallet } from 'lucide-react';
+import { Wallet, RefreshCw } from 'lucide-react';
 import { usePepuPrice } from '@/hooks/usePepuPrice';
 
 export async function notifyTopUp(
@@ -140,24 +140,28 @@ export function TopUpForm({
   }, [isTxSuccess, sendTxHash, isProcessing, amount, cardCode, walletAddress, userFirstName, userLastName, userEmail, onSuccess, reset]);
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <Wallet className="w-5 h-5 text-primary" />
-        Top Up Card
-      </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <Card className="bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl">
+      <div className="p-6 border-b border-gray-700">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
+          <div className="p-2 rounded-full bg-primary/10">
+            <Wallet className="w-6 h-6 text-primary" />
+          </div>
+          Top Up Card
+        </h2>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-2">Amount (USD)</label>
+          <label className="block text-sm font-medium mb-3">Amount (USD)</label>
           <Input
             type="number"
             step="0.01"
             min="10"
             placeholder="Minimum $10"
             {...register('amount', { required: true, min: 10 })}
-            className="bg-gray-700 border-gray-600"
+            className="bg-gray-700/50 border-gray-600 focus:border-primary py-6 text-lg"
           />
           {amount && pepuPrice && (
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm text-muted-foreground mt-3">
               ≈ {pepuNeeded} PEPU (includes 5% fee)
             </p>
           )}
@@ -166,9 +170,16 @@ export function TopUpForm({
         <Button
           type="submit"
           disabled={isProcessing || !amount || parseFloat(amount) < 10}
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold"
         >
-          {isProcessing ? 'Processing...' : `Pay with Wallet`}
+          {isProcessing ? (
+            <span className="flex items-center justify-center gap-2">
+              <RefreshCw className="w-5 h-5 animate-spin" />
+              Processing...
+            </span>
+          ) : (
+            `Pay with Wallet`
+          )}
         </Button>
       </form>
     </Card>

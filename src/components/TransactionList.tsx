@@ -21,40 +21,45 @@ export function TransactionList({ transactions }: TransactionListProps) {
 
   if (transactions.length === 0) {
     return (
-      <Card className="text-center py-12 bg-gray-800 border-gray-700">
-        <RefreshCw className="w-12 h-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-        <p className="text-muted-foreground">No transactions yet</p>
+      <Card className="text-center py-16 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl">
+        <div className="relative mx-auto mb-6">
+          <RefreshCw className="w-16 h-16 mx-auto text-muted-foreground mb-4 opacity-50" />
+          <div className="absolute inset-0 w-16 h-16 mx-auto bg-muted/10 blur-xl rounded-full"></div>
+        </div>
+        <p className="text-muted-foreground text-lg">No transactions yet</p>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
-      <h2 className="text-xl font-bold mb-4 text-foreground">Recent Transactions</h2>
-      <div className="space-y-3 max-h-96 overflow-y-auto">
+    <Card className="bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl">
+      <div className="p-6 border-b border-gray-700">
+        <h2 className="text-2xl font-bold text-foreground">Recent Transactions</h2>
+      </div>
+      <div className="p-6 space-y-4 max-h-96 overflow-y-auto">
         {transactions.map((tx) => (
           <div
             key={tx.code}
-            className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors"
+            className="flex items-center justify-between p-4 rounded-xl bg-gray-700/30 hover:bg-gray-700/50 transition-all duration-300 border border-gray-700"
           >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-gray-600">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-full bg-gray-600/50">
                 {getIcon(tx.drcr)}
               </div>
               <div>
-                <p className="font-medium text-sm">{tx.description}</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="font-medium text-base">{tx.description}</p>
+                <p className="text-sm text-muted-foreground">
                   {format(new Date(tx.createdOn), 'MMM dd, yyyy • HH:mm')}
                 </p>
-                <p className="text-xs text-muted-foreground capitalize">{tx.category}</p>
+                <p className="text-xs text-muted-foreground capitalize mt-1">{tx.category}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className={`font-bold ${getAmountColor(tx.drcr)}`}>
+              <p className={`font-bold text-lg ${getAmountColor(tx.drcr)}`}>
                 {tx.drcr === 'CR' ? '+' : '-'}${tx.amount.toFixed(2)}
               </p>
               {tx.fee > 0 && (
-                <p className="text-xs text-muted-foreground">Fee: ${tx.fee.toFixed(2)}</p>
+                <p className="text-xs text-muted-foreground mt-1">Fee: ${tx.fee.toFixed(2)}</p>
               )}
             </div>
           </div>
