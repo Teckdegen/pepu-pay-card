@@ -141,8 +141,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
       {/* Header with Connect Button */}
       <header className="w-full p-6 flex justify-between items-center backdrop-blur-sm bg-card/50 border-b border-border">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="Pepu Card" className="h-12 w-12 rounded-lg" />
-          <h1 className="text-2xl font-bold text-primary">Unchain Card</h1>
+          <h1 className="text-2xl font-bold text-primary">Unchained Card</h1>
         </div>
         <ConnectButton />
       </header>
@@ -152,19 +151,8 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
         <div className="max-w-6xl w-full">
           {/* Hero Section */}
           <div className="text-center mb-16 mt-8">
-            <div className="flex justify-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse-glow"></div>
-                <img 
-                  src="/logo.png" 
-                  alt="Unchain Card" 
-                  className="w-32 h-32 animate-float relative z-10"
-                />
-              </div>
-            </div>
-            
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
-              Unchain Card
+              Unchained Card
             </h1>
             <p className="text-xl md:text-2xl text-foreground/80 mb-12 max-w-2xl mx-auto">
               Fund with PEPU. Spend Anywhere.
