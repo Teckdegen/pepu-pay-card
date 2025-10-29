@@ -4,8 +4,8 @@ import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 
 // Pepu Chain Configuration
 export const pepuChain = {
-  id: Number(import.meta.env.VITE_PEPU_CHAIN_ID || 1),
-  name: 'Pepu Chain',
+  id: Number(import.meta.env.VITE_PEPU_CHAIN_ID || 97741),
+  name: 'Pepe Unchained V2',
   nativeCurrency: {
     name: 'PEPU',
     symbol: 'PEPU',
@@ -13,16 +13,16 @@ export const pepuChain = {
   },
   rpcUrls: {
     default: {
-      http: [import.meta.env.VITE_PEPU_RPC_URL || 'https://rpc.pepu.chain'],
+      http: [import.meta.env.VITE_PEPU_RPC_URL || 'https://rpc-pepu-v2-mainnet-0.t.conduit.xyz'],
     },
     public: {
-      http: [import.meta.env.VITE_PEPU_RPC_URL || 'https://rpc.pepu.chain'],
+      http: [import.meta.env.VITE_PEPU_RPC_URL || 'https://rpc-pepu-v2-mainnet-0.t.conduit.xyz'],
     },
   },
   blockExplorers: {
     default: {
-      name: 'Pepu Explorer',
-      url: 'https://explorer.pepu.chain',
+      name: 'PepuScan',
+      url: 'https://pepuscan.com',
     },
   },
   testnet: false,
