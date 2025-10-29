@@ -137,182 +137,156 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
   }, [isTxSuccess, txHash, formData, address, mutateUser, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-gray-950 to-black">
-      <div className="max-w-6xl w-full">
-        {/* Hero Section */}
-        <div className="text-center mb-16 mt-8">
-          <div className="flex justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse-glow"></div>
-              <img 
-                src="/logo.png" 
-                alt="Unchain Card" 
-                className="w-32 h-32 animate-float relative z-10"
-              />
-            </div>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Unchain Card
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Fund with PEPU. Spend Anywhere.
-          </p>
-
-          {/* Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
-            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Link2 className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-3">Connect Wallet</h3>
-              <p className="text-muted-foreground">Link your Pepu wallet in seconds</p>
-            </Card>
-            
-            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
-              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Zap className="w-8 h-8 text-secondary" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-3">Instant Approval</h3>
-              <p className="text-muted-foreground">Get your virtual card immediately</p>
-            </Card>
-            
-            <Card className="p-8 text-center hover:scale-105 transition-all duration-300 bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CreditCard className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold mb-3">Spend Globally</h3>
-              <p className="text-muted-foreground">Use anywhere Visa is accepted</p>
-            </Card>
-          </div>
+    <div className="min-h-screen flex flex-col">
+      {/* Header with Connect Button */}
+      <header className="w-full p-6 flex justify-between items-center backdrop-blur-sm bg-card/50 border-b border-border">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Pepu Card" className="h-12 w-12 rounded-lg" />
+          <h1 className="text-2xl font-bold text-primary">Unchain Card</h1>
         </div>
+        <ConnectButton />
+      </header>
 
-        {/* Main Content */}
-        <Card className="max-w-md mx-auto bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-2xl rounded-2xl">
-          {!isConnected ? (
-            <div className="text-center py-10">
-              <h2 className="text-2xl md:text-3xl font-bold mb-8">Get Started</h2>
-              <div className="mb-8">
-                <ConnectButton />
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="max-w-6xl w-full">
+          {/* Hero Section */}
+          <div className="text-center mb-16 mt-8">
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse-glow"></div>
+                <img 
+                  src="/logo.png" 
+                  alt="Unchain Card" 
+                  className="w-32 h-32 animate-float relative z-10"
+                />
               </div>
-              <p className="text-muted-foreground">
-                Connect your Pepu wallet to continue
-              </p>
             </div>
-          ) : showForm && !formData ? (
-            <div className="py-6">
-              <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">Card Application</h2>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input {...register('firstName', { required: true })} placeholder="John" className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input {...register('lastName', { required: true })} placeholder="Doe" className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5" />
-                  </div>
-                </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
+              Unchain Card
+            </h1>
+            <p className="text-xl md:text-2xl text-foreground/80 mb-12 max-w-2xl mx-auto">
+              Fund with PEPU. Spend Anywhere.
+            </p>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input 
-                    {...register('email', { required: true })} 
-                    type="email" 
-                    placeholder="john@example.com" 
-                    className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                  />
+            {/* Features */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Link2 className="w-8 h-8 text-primary" />
                 </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Phone Code</label>
-                    <Input 
-                      {...register('phoneCode', { required: true })} 
-                      placeholder="+1" 
-                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium mb-2">Phone Number</label>
-                    <Input 
-                      {...register('phoneNumber', { required: true })} 
-                      placeholder="1234567890" 
-                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Date of Birth</label>
-                  <Input 
-                    {...register('dateOfBirth', { required: true })} 
-                    type="date" 
-                    className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                  />
-                </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">House No.</label>
-                    <Input 
-                      {...register('homeAddressNumber', { required: true })} 
-                      placeholder="123" 
-                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium mb-2">Home Address</label>
-                    <Input 
-                      {...register('homeAddress', { required: true })} 
-                      placeholder="Street Name, City, State" 
-                      className="bg-gray-700/50 border-gray-600 focus:border-primary rounded-xl py-5"
-                    />
-                  </div>
-                </div>
-
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold mt-6 rounded-xl">
-                  Continue to Payment
-                </Button>
-              </form>
-            </div>
-          ) : formData && !isTxSuccess ? (
-            <div className="text-center py-8">
-              <h2 className="text-xl md:text-2xl font-bold mb-6">Payment Required</h2>
+                <h3 className="text-xl md:text-2xl font-bold mb-3">Connect Wallet</h3>
+                <p className="text-muted-foreground">Link your Pepu wallet in seconds</p>
+              </Card>
               
-              <div className="bg-gray-700/50 rounded-2xl p-6 mb-8 border border-gray-600">
-                <div className="flex justify-between mb-3">
-                  <span className="text-muted-foreground">Card Fee:</span>
-                  <span className="font-semibold text-lg">${initialCost.toFixed(2)}</span>
+              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Zap className="w-8 h-8 text-primary" />
                 </div>
-                <div className="flex justify-between mb-3">
-                  <span className="text-muted-foreground">Processing (5%):</span>
-                  <span className="font-semibold text-lg">${fee.toFixed(2)}</span>
+                <h3 className="text-xl md:text-2xl font-bold mb-3">Instant Approval</h3>
+                <p className="text-muted-foreground">Get your virtual card immediately</p>
+              </Card>
+              
+              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CreditCard className="w-8 h-8 text-primary" />
                 </div>
-                <div className="border-t border-border pt-3 mt-3">
-                  <div className="flex justify-between font-bold text-xl">
-                    <span>Total:</span>
-                    <span>${totalUSD.toFixed(2)}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    ≈ {pepuNeeded} PEPU
-                  </p>
-                </div>
-              </div>
-
-              <Button 
-                onClick={handlePayment}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg py-6 font-semibold rounded-xl"
-              >
-                Pay with Wallet
-              </Button>
-
-              <p className="text-sm text-muted-foreground mt-6">
-                Your card will be activated immediately after payment
-              </p>
+                <h3 className="text-xl md:text-2xl font-bold mb-3">Spend Globally</h3>
+                <p className="text-muted-foreground">Use anywhere Visa is accepted</p>
+              </Card>
             </div>
-          ) : null}
-        </Card>
+          </div>
+
+          {/* Form/Payment Card */}
+          <Card className="max-w-md mx-auto backdrop-blur-sm shadow-2xl rounded-2xl border-primary/20">
+            {showForm && !formData ? (
+              <div className="py-6">
+                <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">Card Application</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">First Name</label>
+                      <Input {...register('firstName', { required: true })} placeholder="John" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Last Name</label>
+                      <Input {...register('lastName', { required: true })} placeholder="Doe" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <Input {...register('email', { required: true })} type="email" placeholder="john@example.com" />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Phone Code</label>
+                      <Input {...register('phoneCode', { required: true })} placeholder="+1" />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-sm font-medium mb-2">Phone Number</label>
+                      <Input {...register('phoneNumber', { required: true })} placeholder="1234567890" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Date of Birth</label>
+                    <Input {...register('dateOfBirth', { required: true })} type="date" />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">House No.</label>
+                      <Input {...register('homeAddressNumber', { required: true })} placeholder="123" />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-sm font-medium mb-2">Home Address</label>
+                      <Input {...register('homeAddress', { required: true })} placeholder="Street Name, City, State" />
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full py-6 text-lg font-semibold mt-6">
+                    Continue to Payment
+                  </Button>
+                </form>
+              </div>
+            ) : formData && !isTxSuccess ? (
+              <div className="text-center py-8">
+                <h2 className="text-xl md:text-2xl font-bold mb-6">Payment Required</h2>
+                
+                <div className="bg-muted/50 rounded-2xl p-6 mb-8 border border-primary/20">
+                  <div className="flex justify-between mb-3">
+                    <span className="text-muted-foreground">Card Fee:</span>
+                    <span className="font-semibold text-lg">${initialCost.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between mb-3">
+                    <span className="text-muted-foreground">Processing (5%):</span>
+                    <span className="font-semibold text-lg">${fee.toFixed(2)}</span>
+                  </div>
+                  <div className="border-t border-primary/20 pt-3 mt-3">
+                    <div className="flex justify-between font-bold text-xl">
+                      <span>Total:</span>
+                      <span>${totalUSD.toFixed(2)}</span>
+                    </div>
+                    <p className="text-sm text-primary mt-2">
+                      ≈ {pepuNeeded} PEPU
+                    </p>
+                  </div>
+                </div>
+
+                <Button onClick={handlePayment} className="w-full text-lg py-6 font-semibold">
+                  Pay with Wallet
+                </Button>
+
+                <p className="text-sm text-muted-foreground mt-6">
+                  Your card will be activated immediately after payment
+                </p>
+              </div>
+            ) : null}
+          </Card>
+        </div>
       </div>
     </div>
   );

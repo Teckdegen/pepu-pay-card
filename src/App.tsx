@@ -19,8 +19,8 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <RainbowKitProvider
         theme={darkTheme({
-          accentColor: 'hsl(142, 76%, 36%)',
-          accentColorForeground: 'hsl(220, 13%, 9%)',
+          accentColor: 'hsl(120, 100%, 50%)',
+          accentColorForeground: 'hsl(0, 0%, 5%)',
           borderRadius: 'large',
         })}
       >

@@ -35,7 +35,7 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
         }}
       >
         {/* Enhanced overlay for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/40 rounded-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-primary/10 to-black/60 rounded-3xl" />
         
         {/* Card Content */}
         <div className="relative h-full flex flex-col justify-between p-8 text-white">
@@ -70,7 +70,7 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
               <p className="text-lg md:text-xl font-semibold uppercase text-white tracking-wider">{cardholderName}</p>
               <div className="mt-4">
                 <p className="text-xs text-white/70 mb-1 uppercase tracking-wider">Balance</p>
-                <p className="text-2xl md:text-3xl font-bold text-yellow-400">${balance.toFixed(2)}</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary">${balance.toFixed(2)}</p>
               </div>
             </div>
             
