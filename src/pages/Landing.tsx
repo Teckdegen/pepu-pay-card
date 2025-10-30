@@ -147,133 +147,172 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="max-w-6xl w-full">
-          {/* Hero Section */}
-          <div className="text-center mb-16 mt-8">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
-              Unchained Card
-            </h1>
-            <p className="text-xl md:text-2xl text-foreground/80 mb-12 max-w-2xl mx-auto">
-              Fund with PEPU. Spend Anywhere.
-            </p>
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="max-w-7xl w-full">
+          {!showForm && (
+            <>
+              {/* Hero Section */}
+              <div className="text-center mb-16 mt-8">
+                <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
+                  Unchained Card
+                </h1>
+                <p className="text-xl md:text-2xl text-foreground/80 mb-12 max-w-2xl mx-auto">
+                  Fund with PEPU. Spend Anywhere.
+                </p>
 
-            {/* Features */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
-              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Link2 className="w-8 h-8 text-primary" />
+                {/* Features */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+                  <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Link2 className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3">Connect Wallet</h3>
+                    <p className="text-muted-foreground">Link your Pepu wallet in seconds</p>
+                  </Card>
+                  
+                  <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Zap className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3">Instant Approval</h3>
+                    <p className="text-muted-foreground">Get your virtual card immediately</p>
+                  </Card>
+                  
+                  <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CreditCard className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-3">Spend Globally</h3>
+                    <p className="text-muted-foreground">Use anywhere Visa is accepted</p>
+                  </Card>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-3">Connect Wallet</h3>
-                <p className="text-muted-foreground">Link your Pepu wallet in seconds</p>
-              </Card>
-              
-              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Zap className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-3">Instant Approval</h3>
-                <p className="text-muted-foreground">Get your virtual card immediately</p>
-              </Card>
-              
-              <Card className="p-8 text-center hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-xl hover:shadow-primary/20 rounded-2xl border-primary/20">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CreditCard className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-3">Spend Globally</h3>
-                <p className="text-muted-foreground">Use anywhere Visa is accepted</p>
-              </Card>
-            </div>
-          </div>
+              </div>
+            </>
+          )}
 
           {/* Form/Payment Card */}
-          <Card className="max-w-md mx-auto backdrop-blur-sm shadow-2xl rounded-2xl border-primary/20">
-            {showForm && !formData ? (
-              <div className="py-6">
-                <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">Card Application</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                  <div className="grid grid-cols-2 gap-4">
+          {showForm && (
+            <Card className="max-w-4xl mx-auto backdrop-blur-sm shadow-2xl rounded-2xl border-primary/20">
+              {!formData ? (
+                <div className="p-8 md:p-12">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Card Application</h2>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium mb-3">First Name</label>
+                        <Input 
+                          {...register('firstName', { required: true })} 
+                          placeholder="John" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-3">Last Name</label>
+                        <Input 
+                          {...register('lastName', { required: true })} 
+                          placeholder="Doe" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                    </div>
+
                     <div>
-                      <label className="block text-sm font-medium mb-2">First Name</label>
-                      <Input {...register('firstName', { required: true })} placeholder="John" />
+                      <label className="block text-sm font-medium mb-3">Email</label>
+                      <Input 
+                        {...register('email', { required: true })} 
+                        type="email" 
+                        placeholder="john@example.com" 
+                        className="h-12 text-base"
+                      />
                     </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium mb-3">Code</label>
+                        <Input 
+                          {...register('phoneCode', { required: true })} 
+                          placeholder="+1" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                      <div className="md:col-span-3">
+                        <label className="block text-sm font-medium mb-3">Phone Number</label>
+                        <Input 
+                          {...register('phoneNumber', { required: true })} 
+                          placeholder="1234567890" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                    </div>
+
                     <div>
-                      <label className="block text-sm font-medium mb-2">Last Name</label>
-                      <Input {...register('lastName', { required: true })} placeholder="Doe" />
+                      <label className="block text-sm font-medium mb-3">Date of Birth</label>
+                      <Input 
+                        {...register('dateOfBirth', { required: true })} 
+                        type="date" 
+                        className="h-12 text-base"
+                      />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <Input {...register('email', { required: true })} type="email" placeholder="john@example.com" />
-                  </div>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium mb-3">House No.</label>
+                        <Input 
+                          {...register('homeAddressNumber', { required: true })} 
+                          placeholder="123" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                      <div className="md:col-span-3">
+                        <label className="block text-sm font-medium mb-3">Home Address</label>
+                        <Input 
+                          {...register('homeAddress', { required: true })} 
+                          placeholder="Street Name, City, State" 
+                          className="h-12 text-base"
+                        />
+                      </div>
+                    </div>
 
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Phone Code</label>
-                      <Input {...register('phoneCode', { required: true })} placeholder="+1" />
-                    </div>
-                    <div className="col-span-2">
-                      <label className="block text-sm font-medium mb-2">Phone Number</label>
-                      <Input {...register('phoneNumber', { required: true })} placeholder="1234567890" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Date of Birth</label>
-                    <Input {...register('dateOfBirth', { required: true })} type="date" />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">House No.</label>
-                      <Input {...register('homeAddressNumber', { required: true })} placeholder="123" />
-                    </div>
-                    <div className="col-span-2">
-                      <label className="block text-sm font-medium mb-2">Home Address</label>
-                      <Input {...register('homeAddress', { required: true })} placeholder="Street Name, City, State" />
-                    </div>
-                  </div>
-
-                  <Button type="submit" className="w-full py-6 text-lg font-semibold mt-6">
-                    Continue to Payment
-                  </Button>
-                </form>
-              </div>
-            ) : formData && !isTxSuccess ? (
-              <div className="text-center py-8">
-                <h2 className="text-xl md:text-2xl font-bold mb-6">Payment Required</h2>
-                
-                <div className="bg-muted/50 rounded-2xl p-6 mb-8 border border-primary/20">
-                  <div className="flex justify-between mb-3">
-                    <span className="text-muted-foreground">Card Fee:</span>
-                    <span className="font-semibold text-lg">${initialCost.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between mb-3">
-                    <span className="text-muted-foreground">Processing (5%):</span>
-                    <span className="font-semibold text-lg">${fee.toFixed(2)}</span>
-                  </div>
-                  <div className="border-t border-primary/20 pt-3 mt-3">
-                    <div className="flex justify-between font-bold text-xl">
-                      <span>Total:</span>
-                      <span>${totalUSD.toFixed(2)}</span>
-                    </div>
-                    <p className="text-sm text-primary mt-2">
-                      ≈ {pepuNeeded} PEPU
-                    </p>
-                  </div>
+                    <Button type="submit" className="w-full h-14 text-lg font-semibold mt-8">
+                      Continue to Payment
+                    </Button>
+                  </form>
                 </div>
+              ) : !isTxSuccess ? (
+                <div className="text-center p-8 md:p-12">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-8">Payment Required</h2>
+                  
+                  <div className="bg-muted/50 rounded-2xl p-8 mb-8 border border-primary/20 max-w-md mx-auto">
+                    <div className="flex justify-between mb-4 text-lg">
+                      <span className="text-muted-foreground">Card Fee:</span>
+                      <span className="font-semibold">${initialCost.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between mb-4 text-lg">
+                      <span className="text-muted-foreground">Processing (5%):</span>
+                      <span className="font-semibold">${fee.toFixed(2)}</span>
+                    </div>
+                    <div className="border-t border-primary/20 pt-4 mt-4">
+                      <div className="flex justify-between font-bold text-2xl">
+                        <span>Total:</span>
+                        <span>${totalUSD.toFixed(2)}</span>
+                      </div>
+                      <p className="text-base text-primary mt-3">
+                        ≈ {pepuNeeded} PEPU
+                      </p>
+                    </div>
+                  </div>
 
-                <Button onClick={handlePayment} className="w-full text-lg py-6 font-semibold">
-                  Pay with Wallet
-                </Button>
+                  <Button onClick={handlePayment} className="w-full max-w-md text-lg h-14 font-semibold">
+                    Pay with Wallet
+                  </Button>
 
-                <p className="text-sm text-muted-foreground mt-6">
-                  Your card will be activated immediately after payment
-                </p>
-              </div>
-            ) : null}
-          </Card>
+                  <p className="text-base text-muted-foreground mt-8">
+                    Your card will be activated immediately after payment
+                  </p>
+                </div>
+              ) : null}
+            </Card>
+          )}
         </div>
       </div>
     </div>
