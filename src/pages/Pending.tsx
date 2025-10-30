@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/hooks/useUser';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
 export default function Pending() {

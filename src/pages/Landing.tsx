@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Link2, CreditCard, Zap } from 'lucide-react';
+import { phoneCodes } from '@/lib/phoneCodes';
 
 interface FormData {
   firstName: string;
@@ -29,12 +30,15 @@ export default function Landing() {
   const navigate = useNavigate();
   const { data: user, mutate: mutateUser } = useUser(address);
   const { data: pepuPrice } = usePepuPrice();
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, setValue, watch } = useForm<FormData>();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
   
   const { data: txHash, sendTransaction } = useSendTransaction();
   const { isSuccess: isTxSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+
+  // Watch phone code selection
+  const selectedPhoneCode = watch('phoneCode');
 
   const initialCost = 30; // $30 initial card fee
   const fee = initialCost * 0.05; // 5% fee
@@ -228,12 +232,19 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       <div>
-                        <label className="block text-sm font-medium mb-3">Code</label>
-                        <Input 
-                          {...register('phoneCode', { required: true })} 
-                          placeholder="+1" 
-                          className="h-12 text-base"
-                        />
+                        <label className="block text-sm font-medium mb-3">Country Code</label>
+                        <select
+                          {...register('phoneCode', { required: true })}
+                          className="w-full h-12 px-3 text-base bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-input"
+                          defaultValue=""
+                        >
+                          <option value="" disabled>Select Country Code</option>
+                          {phoneCodes.map((country) => (
+                            <option key={`${country.code}-${country.iso}`} value={country.code}>
+                              {country.country} ({country.code})
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div className="md:col-span-3">
                         <label className="block text-sm font-medium mb-3">Phone Number</label>

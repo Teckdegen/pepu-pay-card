@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Card } from './ui/Card';
+import { Card } from './ui/card';
 import { useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 import { toast } from 'sonner';
-import { Wallet, RefreshCw } from 'lucide-react';
+import { Wallet, RefreshCw, Zap, Database } from 'lucide-react';
 import { usePepuPrice } from '@/hooks/usePepuPrice';
 
 export async function notifyTopUp(
@@ -76,7 +76,7 @@ export function TopUpForm({
   
   const { data: pepuPrice } = usePepuPrice();
 
-  const { isSuccess: isTxSuccess } = useWaitForTransactionReceipt({
+  const { isSuccess: isTxSuccess, isError: isTxError } = useWaitForTransactionReceipt({
     hash: sendTxHash,
   });
 
@@ -94,7 +94,7 @@ export function TopUpForm({
     }
 
     if (!pepuPrice) {
-      toast.error('Unable to fetch PEPU price');
+      toast.error('Unable to fetch PEPU price. Please try again.');
       return;
     }
 
@@ -106,7 +106,7 @@ export function TopUpForm({
         value: parseEther(pepuNeeded),
       });
     } catch (error) {
-      toast.error('Payment failed');
+      toast.error('Payment failed: ' + (error as Error).message);
       setIsProcessing(false);
     }
   };
@@ -131,7 +131,7 @@ export function TopUpForm({
           reset();
           onSuccess();
         } catch (error) {
-          toast.error('Failed to process top-up notification');
+          toast.error('Failed to process top-up notification: ' + (error as Error).message);
         } finally {
           setIsProcessing(false);
         }
@@ -139,46 +139,64 @@ export function TopUpForm({
     }
   }, [isTxSuccess, sendTxHash, isProcessing, amount, cardCode, walletAddress, userFirstName, userLastName, userEmail, onSuccess, reset]);
 
+  // Handle transaction error
+  useEffect(() => {
+    if (isTxError && isProcessing) {
+      toast.error('Transaction failed on blockchain. Please check your wallet.');
+      setIsProcessing(false);
+    }
+  }, [isTxError, isProcessing]);
+
   return (
-    <Card className="bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl">
-      <div className="p-6 border-b border-gray-700">
-        <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-          <div className="p-2 rounded-full bg-primary/10">
-            <Wallet className="w-6 h-6 text-primary" />
+    <Card className="bg-gray-900/50 border-cyan-500/20 backdrop-blur-sm shadow-xl">
+      <div className="p-6 border-b border-cyan-500/20">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 text-cyan-300">
+          <div className="p-2 rounded-full bg-cyan-900/50 border border-cyan-500/30">
+            <Zap className="w-6 h-6 text-cyan-400" />
           </div>
-          Top Up Card
+          <span className="font-mono">Top Up Card</span>
         </h2>
+        <p className="text-sm text-cyan-500/70 font-mono">Add funds to your virtual card</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-3">Amount (USD)</label>
-          <Input
-            type="number"
-            step="0.01"
-            min="10"
-            placeholder="Minimum $10"
-            {...register('amount', { required: true, min: 10 })}
-            className="bg-gray-700/50 border-gray-600 focus:border-primary py-6 text-lg"
-          />
+          <label className="block text-sm font-medium mb-3 text-cyan-300/70 font-mono">Amount (USD)</label>
+          <div className="relative">
+            <Input
+              type="number"
+              step="0.01"
+              min="10"
+              placeholder="Minimum $10"
+              {...register('amount', { required: true, min: 10 })}
+              className="bg-gray-800/50 border-cyan-500/30 focus:border-cyan-500 py-6 text-lg pl-12 font-mono"
+            />
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500/70 font-mono">$</div>
+          </div>
           {amount && pepuPrice && (
-            <p className="text-sm text-muted-foreground mt-3">
-              ≈ {pepuNeeded} PEPU (includes 5% fee)
-            </p>
+            <div className="flex items-center gap-2 mt-3 p-3 bg-cyan-900/20 rounded-lg border border-cyan-500/20">
+              <Database className="w-5 h-5 text-cyan-500/70" />
+              <p className="text-sm text-cyan-300/70 font-mono">
+                ≈ {pepuNeeded} PEPU (includes 5% network fee)
+              </p>
+            </div>
           )}
         </div>
         
         <Button
           type="submit"
           disabled={isProcessing || !amount || parseFloat(amount) < 10}
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold"
+          className="w-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white py-6 text-lg font-semibold font-mono border border-cyan-500/30"
         >
           {isProcessing ? (
             <span className="flex items-center justify-center gap-2">
               <RefreshCw className="w-5 h-5 animate-spin" />
-              Processing...
+              Processing on Blockchain...
             </span>
           ) : (
-            `Pay with Wallet`
+            <span className="flex items-center justify-center gap-2">
+              <Wallet className="w-5 h-5" />
+              Pay with Wallet
+            </span>
           )}
         </Button>
       </form>

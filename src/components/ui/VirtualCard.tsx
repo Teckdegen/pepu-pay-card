@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Lock, Wifi } from 'lucide-react';
+import { Eye, EyeOff, Lock, Wifi, Shield } from 'lucide-react';
 import { Card } from './Card';
 import pepuCardImage from '@/assets/pepu-card.png';
 
@@ -26,7 +26,7 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
   return (
     <div className="relative w-full max-w-2xl mx-auto">
       <div 
-        className="relative overflow-hidden rounded-3xl shadow-2xl w-full aspect-[1.586] transform transition-all duration-300 hover:scale-[1.01]"
+        className="relative overflow-hidden rounded-3xl shadow-2xl w-full aspect-[1.586] transform transition-all duration-300 hover:scale-[1.01] border border-cyan-500/30"
         style={{
           backgroundImage: `url(${pepuCardImage})`,
           backgroundSize: 'cover',
@@ -35,7 +35,13 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
         }}
       >
         {/* Enhanced overlay for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-primary/10 to-black/60 rounded-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-cyan-900/20 to-black/70 rounded-3xl" />
+        
+        {/* Security badge */}
+        <div className="absolute top-4 right-4 flex items-center gap-1 bg-cyan-900/50 px-2 py-1 rounded-full border border-cyan-500/30">
+          <Shield className="w-4 h-4 text-cyan-400" />
+          <span className="text-xs text-cyan-300 font-mono">SECURE</span>
+        </div>
         
         {/* Card Content */}
         <div className="relative h-full flex flex-col justify-between p-8 text-white">
@@ -56,7 +62,7 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
             </p>
             <button
               onClick={() => setShowNumber(!showNumber)}
-              className="p-3 hover:bg-white/20 rounded-xl transition-colors backdrop-blur-sm"
+              className="p-3 hover:bg-white/20 rounded-xl transition-colors backdrop-blur-sm border border-white/10"
               aria-label={showNumber ? 'Hide card number' : 'Show card number'}
             >
               {showNumber ? <EyeOff className="w-6 h-6" /> : <Eye className="w-6 h-6" />}
@@ -66,27 +72,27 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
           {/* Bottom Section */}
           <div className="flex justify-between items-end">
             <div>
-              <p className="text-xs text-white/70 mb-1 uppercase tracking-wider">Cardholder</p>
+              <p className="text-xs text-white/70 mb-1 uppercase tracking-wider font-mono">Cardholder</p>
               <p className="text-lg md:text-xl font-semibold uppercase text-white tracking-wider">{cardholderName}</p>
               <div className="mt-4">
-                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider">Balance</p>
-                <p className="text-2xl md:text-3xl font-bold text-primary">${balance.toFixed(2)}</p>
+                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider font-mono">Available Balance</p>
+                <p className="text-2xl md:text-3xl font-bold text-cyan-400 font-mono">${balance.toFixed(2)}</p>
               </div>
             </div>
             
             <div className="flex gap-8">
               <div>
-                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider">Expires</p>
+                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider font-mono">Expires</p>
                 <p className="text-lg font-mono text-white tracking-wider">{expiryDate}</p>
               </div>
               
               <div>
-                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider">CVV</p>
+                <p className="text-xs text-white/70 mb-1 uppercase tracking-wider font-mono">CVV</p>
                 <div className="flex items-center gap-2">
                   <p className="text-lg font-mono text-white tracking-wider">{showCVV ? cvv : '•••'}</p>
                   <button
                     onClick={() => setShowCVV(!showCVV)}
-                    className="p-2 hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm"
+                    className="p-2 hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm border border-white/10"
                     aria-label={showCVV ? 'Hide CVV' : 'Show CVV'}
                   >
                     {showCVV ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -100,8 +106,8 @@ export function VirtualCard({ cardNumber, expiryDate, cvv, cardholderName, balan
       
       {/* Card info footer */}
       <div className="mt-6 text-center">
-        <p className="text-sm text-muted-foreground uppercase tracking-widest">
-          Unchain Card • Virtual Debit Card
+        <p className="text-sm text-cyan-500/70 uppercase tracking-widest font-mono">
+          Unchain Card • Virtual Debit Card • Powered by Blockchain
         </p>
       </div>
     </div>
