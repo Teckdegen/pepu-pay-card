@@ -8,6 +8,7 @@ import { parseEther } from 'viem';
 import { toast } from 'sonner';
 import { Wallet, RefreshCw, Zap, Database } from 'lucide-react';
 import { usePepuPrice } from '@/hooks/usePepuPrice';
+import { CARD_CONFIG } from '@/lib/config';
 
 export async function notifyTopUp(
   cardCode: string,
@@ -82,14 +83,14 @@ export function TopUpForm({
 
   const amount = watch('amount');
   const pepuNeeded = pepuPrice && amount 
-    ? ((parseFloat(amount) * 1.05) / pepuPrice).toFixed(0)
+    ? ((parseFloat(amount) * (1 + CARD_CONFIG.TOP_UP_PROCESSING_FEE_PERCENTAGE)) / pepuPrice).toFixed(0)
     : '0';
 
   const onSubmit = async (data: FormData) => {
     const usdAmount = parseFloat(data.amount);
     
-    if (usdAmount < 10) {
-      toast.error('Minimum top-up amount is $10');
+    if (usdAmount < CARD_CONFIG.MIN_TOP_UP_AMOUNT) {
+      toast.error(`Minimum top-up amount is $${CARD_CONFIG.MIN_TOP_UP_AMOUNT}`);
       return;
     }
 
@@ -165,9 +166,9 @@ export function TopUpForm({
             <Input
               type="number"
               step="0.01"
-              min="10"
-              placeholder="Minimum $10"
-              {...register('amount', { required: true, min: 10 })}
+              min={CARD_CONFIG.MIN_TOP_UP_AMOUNT}
+              placeholder={`Minimum $${CARD_CONFIG.MIN_TOP_UP_AMOUNT}`}
+              {...register('amount', { required: true, min: CARD_CONFIG.MIN_TOP_UP_AMOUNT })}
               className="bg-gray-800/50 border-cyan-500/30 focus:border-cyan-500 py-6 text-lg pl-12 font-mono"
             />
             <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-500/70 font-mono">$</div>
@@ -176,7 +177,7 @@ export function TopUpForm({
             <div className="flex items-center gap-2 mt-3 p-3 bg-cyan-900/20 rounded-lg border border-cyan-500/20">
               <Database className="w-5 h-5 text-cyan-500/70" />
               <p className="text-sm text-cyan-300/70 font-mono">
-                ≈ {pepuNeeded} PEPU (includes 5% network fee)
+                ≈ {pepuNeeded} PEPU (includes {CARD_CONFIG.TOP_UP_PROCESSING_FEE_PERCENTAGE * 100}% network fee)
               </p>
             </div>
           )}
@@ -184,7 +185,7 @@ export function TopUpForm({
         
         <Button
           type="submit"
-          disabled={isProcessing || !amount || parseFloat(amount) < 10}
+          disabled={isProcessing || !amount || parseFloat(amount) < CARD_CONFIG.MIN_TOP_UP_AMOUNT}
           className="w-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white py-6 text-lg font-semibold font-mono border border-cyan-500/30"
         >
           {isProcessing ? (

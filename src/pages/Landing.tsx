@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Link2, CreditCard, Zap } from 'lucide-react';
 import { phoneCodes } from '@/lib/phoneCodes';
+import { CARD_CONFIG } from '@/lib/config';
 
 interface FormData {
   firstName: string;
@@ -40,8 +41,8 @@ export default function Landing() {
   // Watch phone code selection
   const selectedPhoneCode = watch('phoneCode');
 
-  const initialCost = 30; // $30 initial card fee
-  const fee = initialCost * 0.05; // 5% fee
+  const initialCost = CARD_CONFIG.CARD_CREATION_FEE; // Card creation fee in USD
+  const fee = initialCost * CARD_CONFIG.PROCESSING_FEE_PERCENTAGE; // Processing fee
   const totalUSD = initialCost + fee;
   const pepuNeeded = pepuPrice ? (totalUSD / pepuPrice).toFixed(0) : '0';
 
@@ -299,7 +300,7 @@ Address: ${formData.homeAddressNumber} ${formData.homeAddress}`;
                       <span className="font-semibold">${initialCost.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between mb-4 text-lg">
-                      <span className="text-muted-foreground">Processing (5%):</span>
+                      <span className="text-muted-foreground">Processing ({CARD_CONFIG.PROCESSING_FEE_PERCENTAGE * 100}%):</span>
                       <span className="font-semibold">${fee.toFixed(2)}</span>
                     </div>
                     <div className="border-t border-primary/20 pt-4 mt-4">
