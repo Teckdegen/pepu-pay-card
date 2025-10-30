@@ -1,7 +1,7 @@
 // Card and pricing configuration
 export const CARD_CONFIG = {
   // Card creation fee in USD (changed from $30 to $3000 as per CoinGecko's requirement)
-  CARD_CREATION_FEE: 0.01,
+  CARD_CREATION_FEE: 0.000001,
   
   // Processing fee percentage (0.05 = 5%)
   PROCESSING_FEE_PERCENTAGE: 0.05,
